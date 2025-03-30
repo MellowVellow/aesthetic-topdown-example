@@ -1,0 +1,127 @@
+[gd_scene load_steps=14 format=3 uid="uid://5umw2ycbnia5"]
+
+[ext_resource type="Script" uid="uid://cqe43rll7lgi4" path="res://scenes/main.gd" id="1_hc1ho"]
+[ext_resource type="PackedScene" uid="uid://bapi60yrf15de" path="res://scenes/tutorial.tscn" id="2_fpr4x"]
+[ext_resource type="PackedScene" uid="uid://dc2b8cqk4fo8s" path="res://scenes/player.tscn" id="3_5cx6l"]
+[ext_resource type="PackedScene" uid="uid://dpwj3f60t4d7g" path="res://scenes/ran.tscn" id="3_mpygg"]
+[ext_resource type="PackedScene" uid="uid://c6tvlt1olyyvs" path="res://scenes/ui.tscn" id="3_phpev"]
+[ext_resource type="AudioStream" uid="uid://nopqqlbq36eq" path="res://assets/Held Breeze - tutorial.mp3" id="4_ft27f"]
+[ext_resource type="Texture2D" uid="uid://dw78t3w802vl5" path="res://assets/env/leaf.png" id="5_lwsdq"]
+[ext_resource type="PackedScene" uid="uid://cv4dbw3orrsjh" path="res://scenes/training_dummy.tscn" id="6_225w4"]
+[ext_resource type="Texture2D" uid="uid://jeqdxpu3ddl7" path="res://assets/sword.png" id="7_fs28q"]
+
+[sub_resource type="Gradient" id="Gradient_egnfc"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.674528)
+colors = PackedColorArray(1, 1, 1, 0.313726, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ejmum"]
+gradient = SubResource("Gradient_egnfc")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Curve" id="Curve_5gamu"]
+_limits = [-360.0, 360.0, 0.0, 1.0]
+_data = [Vector2(0, -11.8681), 0.0, 0.0, 0, 0, Vector2(1, 19.7802), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Environment" id="Environment_flf8c"]
+tonemap_mode = 3
+glow_enabled = true
+glow_normalized = true
+glow_intensity = 1.15
+glow_bloom = 0.2
+
+[node name="main" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_hc1ho")
+
+[node name="entities" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Player" parent="entities" node_paths=PackedStringArray("hptext", "hpbar", "staminabar") instance=ExtResource("3_5cx6l")]
+position = Vector2(-179, 1026)
+collision_mask = 26
+hptext = NodePath("Camera2D/UI/HealthBar/Label")
+hpbar = NodePath("Camera2D/UI/HealthBar/TextureProgressBar")
+staminabar = NodePath("Camera2D/UI/staminabar")
+metadata/_edit_group_ = true
+
+[node name="Camera2D" type="Camera2D" parent="entities/Player"]
+zoom = Vector2(3, 3)
+
+[node name="UI" parent="entities/Player/Camera2D" instance=ExtResource("3_phpev")]
+
+[node name="PointLight2D" type="PointLight2D" parent="entities/Player"]
+shadow_color = Color(0, 0, 0, 0.235294)
+texture = SubResource("GradientTexture2D_ejmum")
+offset = Vector2(0, -5)
+
+[node name="Training Dummy" parent="entities" instance=ExtResource("6_225w4")]
+y_sort_enabled = false
+position = Vector2(-54, 1088)
+collision_mask = 5
+
+[node name="Ran" parent="entities" instance=ExtResource("3_mpygg")]
+position = Vector2(165, 1331)
+
+[node name="Tutorial" parent="." instance=ExtResource("2_fpr4x")]
+y_sort_enabled = true
+
+[node name="right" type="CPUParticles2D" parent="Tutorial"]
+y_sort_enabled = true
+position = Vector2(4, -8)
+amount = 50
+texture = ExtResource("5_lwsdq")
+lifetime = 10.0
+randomness = 0.15
+emission_shape = 3
+emission_rect_extents = Vector2(600, 1000)
+direction = Vector2(0.1, 0)
+spread = 60.0
+gravity = Vector2(4, 2)
+angular_velocity_max = 10.0
+angle_max = 0.5
+angle_curve = SubResource("Curve_5gamu")
+scale_amount_min = 0.3
+scale_amount_max = 1.2
+
+[node name="left" type="CPUParticles2D" parent="Tutorial"]
+y_sort_enabled = true
+position = Vector2(4, -8)
+amount = 50
+texture = ExtResource("5_lwsdq")
+lifetime = 10.0
+randomness = 0.15
+emission_shape = 3
+emission_rect_extents = Vector2(600, 1000)
+direction = Vector2(-0.1, 0)
+spread = 60.0
+gravity = Vector2(-4, 2)
+angular_velocity_max = 10.0
+angle_max = 0.5
+angle_curve = SubResource("Curve_5gamu")
+scale_amount_min = 0.3
+scale_amount_max = 1.2
+
+[node name="Sword" type="Sprite2D" parent="Tutorial"]
+y_sort_enabled = true
+position = Vector2(-8, -12)
+texture = ExtResource("7_fs28q")
+
+[node name="PointLight2D" type="PointLight2D" parent="Tutorial/Sword"]
+texture = SubResource("GradientTexture2D_ejmum")
+
+[node name="world" type="Node" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="world"]
+environment = SubResource("Environment_flf8c")
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="world"]
+color = Color(0.359069, 0.359069, 0.359069, 1)
+blend_mode = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="world"]
+stream = ExtResource("4_ft27f")
+
+[editable path="entities/Player/Camera2D/UI"]

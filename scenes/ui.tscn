@@ -1,0 +1,74 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6tvlt1olyyvs"]
+
+[ext_resource type="Texture2D" uid="uid://2wboj7pdbyhv" path="res://assets/Frame 1.png" id="1_xoxoo"]
+[ext_resource type="Texture2D" uid="uid://crhgl5t0iy55j" path="res://assets/layerbg.png" id="2_4tuok"]
+[ext_resource type="Texture2D" uid="uid://dcpnb3gb6qa6k" path="res://assets/layer.png" id="3_6x0jp"]
+
+[node name="UI" type="CanvasLayer"]
+
+[node name="staminabar" type="TextureProgressBar" parent="."]
+offset_left = 695.0
+offset_top = 242.0
+offset_right = 748.0
+offset_bottom = 295.0
+max_value = 3.0
+step = 0.01
+value = 2.0
+fill_mode = 4
+nine_patch_stretch = true
+texture_under = ExtResource("1_xoxoo")
+texture_progress = ExtResource("1_xoxoo")
+tint_under = Color(0.215902, 0.215902, 0.215902, 1)
+tint_progress = Color(0.438818, 0.984456, 0.94486, 1)
+
+[node name="HealthBar" type="NinePatchRect" parent="."]
+self_modulate = Color(0.501407, 0.501406, 0.501406, 1)
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = -93.0
+offset_right = 620.0
+offset_bottom = -31.0
+grow_vertical = 0
+texture = ExtResource("2_4tuok")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="HealthBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -283.0
+offset_top = -23.0
+offset_right = 283.0
+offset_bottom = 23.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+value = 50.0
+nine_patch_stretch = true
+texture_under = ExtResource("3_6x0jp")
+texture_progress = ExtResource("3_6x0jp")
+tint_under = Color(0.435192, 0.435192, 0.435192, 1)
+tint_progress = Color(0.294118, 1, 0.4, 1)
+
+[node name="Label" type="Label" parent="HealthBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -46.5
+offset_top = -34.5
+offset_right = 46.5
+offset_bottom = 34.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "test"
+horizontal_alignment = 1
+vertical_alignment = 1

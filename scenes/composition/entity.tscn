@@ -1,0 +1,15 @@
+[gd_scene load_steps=5 format=3 uid="uid://bpwhq4o7nt6un"]
+
+[ext_resource type="Script" uid="uid://bvq357lnrn23u" path="res://scenes/composition/entity.gd" id="1_veuf8"]
+[ext_resource type="PackedScene" uid="uid://b0x3ueivhvkef" path="res://scenes/composition/health_component.tscn" id="2_7gigi"]
+[ext_resource type="PackedScene" uid="uid://mjm76cw3dccb" path="res://scenes/composition/hitbox_component.tscn" id="3_ohjx1"]
+[ext_resource type="PackedScene" uid="uid://b6befd2ibu7pr" path="res://scenes/composition/hurtbox_component.tscn" id="4_quxyg"]
+
+[node name="Entity" type="CharacterBody2D"]
+script = ExtResource("1_veuf8")
+
+[node name="HealthComponent" parent="." instance=ExtResource("2_7gigi")]
+
+[node name="HitboxComponent" parent="." instance=ExtResource("3_ohjx1")]
+
+[node name="HurtboxComponent" parent="." instance=ExtResource("4_quxyg")]

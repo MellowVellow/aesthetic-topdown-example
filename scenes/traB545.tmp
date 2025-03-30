@@ -1,0 +1,42 @@
+[gd_scene load_steps=8 format=3 uid="uid://cv4dbw3orrsjh"]
+
+[ext_resource type="Script" path="res://scripts/training_dummy.gd" id="1_8vkje"]
+[ext_resource type="Texture2D" uid="uid://ccor23lt05x03" path="res://assets/1/dummy.png" id="1_k5pxx"]
+[ext_resource type="PackedScene" uid="uid://b6befd2ibu7pr" path="res://scenes/composition/hurtbox_component.tscn" id="3_tra08"]
+[ext_resource type="PackedScene" uid="uid://b0x3ueivhvkef" path="res://scenes/composition/health_component.tscn" id="4_rw2jy"]
+[ext_resource type="PackedScene" uid="uid://yfd0wqgboelt" path="res://scenes/composition/velocity_component.tscn" id="5_6nhrm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3nl60"]
+size = Vector2(6, 14.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tu61n"]
+size = Vector2(8, 18)
+
+[node name="Training Dummy" type="CharacterBody2D" node_paths=PackedStringArray("velocitycomponent")]
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("1_8vkje")
+velocitycomponent = NodePath("VelocityComponent")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_k5pxx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4.25)
+shape = SubResource("RectangleShape2D_3nl60")
+debug_color = Color(0.804594, 0.392158, 0.384554, 0.42)
+
+[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("Health_component") groups=["Enemies"] instance=ExtResource("3_tra08")]
+Health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+position = Vector2(0, -2.5)
+shape = SubResource("RectangleShape2D_tu61n")
+
+[node name="HealthComponent" parent="." instance=ExtResource("4_rw2jy")]
+MAX_HEALTH = 100
+
+[node name="DamageNumbersOrigin" type="Node2D" parent="."]
+position = Vector2(4, -13)
+
+[node name="VelocityComponent" parent="." instance=ExtResource("5_6nhrm")]

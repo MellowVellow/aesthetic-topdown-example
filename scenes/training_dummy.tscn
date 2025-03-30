@@ -1,0 +1,51 @@
+[gd_scene load_steps=9 format=3 uid="uid://cv4dbw3orrsjh"]
+
+[ext_resource type="Script" uid="uid://bwkes2k0ma68x" path="res://scripts/training_dummy.gd" id="1_8vkje"]
+[ext_resource type="Texture2D" uid="uid://blrfx4kwlo0di" path="res://assets/env/dummy.png" id="1_k5pxx"]
+[ext_resource type="PackedScene" uid="uid://b6befd2ibu7pr" path="res://scenes/composition/hurtbox_component.tscn" id="3_tra08"]
+[ext_resource type="PackedScene" uid="uid://1bui216o67d4" path="res://scenes/hit_effect.tscn" id="4_4fum6"]
+[ext_resource type="PackedScene" uid="uid://b0x3ueivhvkef" path="res://scenes/composition/health_component.tscn" id="4_rw2jy"]
+[ext_resource type="PackedScene" uid="uid://b7b4746qbpt7c" path="res://scenes/composition/stats_component.tscn" id="6_o17lu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3nl60"]
+size = Vector2(8, 3.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tu61n"]
+size = Vector2(8, 18)
+
+[node name="Training Dummy" type="CharacterBody2D" node_paths=PackedStringArray("stats_component", "Health_component", "Hurt_component")]
+y_sort_enabled = true
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("1_8vkje")
+stats_component = NodePath("StatsComponent")
+Health_component = NodePath("HealthComponent")
+Hurt_component = NodePath("HurtboxComponent")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -11)
+texture = ExtResource("1_k5pxx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_3nl60")
+debug_color = Color(0.804594, 0.392158, 0.384554, 0.42)
+
+[node name="HurtboxComponent" parent="." groups=["Enemies"] instance=ExtResource("3_tra08")]
+collision_layer = 2
+collision_mask = 4
+hitEffectScene = ExtResource("4_4fum6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+position = Vector2(0, -14)
+shape = SubResource("RectangleShape2D_tu61n")
+
+[node name="HealthComponent" parent="." node_paths=PackedStringArray("stats_component") instance=ExtResource("4_rw2jy")]
+stats_component = NodePath("../StatsComponent")
+
+[node name="DamageNumbersOrigin" type="Node2D" parent="."]
+position = Vector2(4, -15)
+
+[node name="StatsComponent" parent="." instance=ExtResource("6_o17lu")]
+attack = 10.0
+max_health = 100.0
